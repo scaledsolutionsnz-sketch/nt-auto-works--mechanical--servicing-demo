@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en-NZ">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Private Feedback | NT Auto Works, Christchurch</title>
+<meta name="description" content="Tell NT Auto Works what went wrong so we can put it right — private feedback for our Christchurch workshop.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%23f4581f'/><text x='50' y='70' font-family='Arial' font-size='52' font-weight='bold' fill='white' text-anchor='middle'>NT</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fjalla+One&family=Public+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<style>
+  .fb-wrap{max-width:640px;margin:0 auto;padding:clamp(2.5rem,6vw,4rem) 24px 5rem}
+  .fb-card{background:var(--paper);border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow);padding:clamp(2rem,5vw,3rem)}
+  .ratepill{display:inline-flex;align-items:center;gap:.5rem;background:var(--bone);border:1px solid var(--line);border-radius:999px;padding:.5rem 1rem;font-weight:700;color:var(--text);margin-bottom:1.4rem}
+  .ratepill .s{color:var(--accent);letter-spacing:2px}
+  .success{display:none;text-align:center;padding:1rem 0}
+  .success .tick{width:74px;height:74px;border-radius:50%;background:rgba(244,88,31,.12);color:var(--accent);display:grid;place-items:center;margin:0 auto 1.3rem}
+  .success h2{color:var(--ink);font-size:1.7rem;margin-bottom:.6rem}
+  .success p{color:var(--muted)}
+  .back{display:inline-flex;align-items:center;gap:.4rem;color:#fff;margin-top:1.5rem;font-weight:700;opacity:.85}
+  .back:hover{opacity:1}
+</style>
+</head>
+<body>
+<section class="page-hero">
+  <div class="wrap">
+    <span class="eyebrow">NT Auto Works</span>
+    <h1>Tell us what went wrong</h1>
+    <p>This goes straight to the workshop — not online. We read every message and we'll do our best to put it right.</p>
+    <a class="back" href="index.html"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg> Back to site</a>
+  </div>
+</section>
+
+<div class="fb-wrap">
+  <div class="fb-card">
+    <div id="formView">
+      <span class="ratepill">Your rating: <span class="s" id="rateStars">★</span><span id="rateNum">(1/5)</span></span>
+      <form id="fbForm" action="https://formsubmit.co/ntautochch@gmail.com" method="POST">
+        <input type="hidden" name="_subject" value="Private feedback — NT Auto Works">
+        <input type="hidden" name="_captcha" value="false">
+        <input type="hidden" name="_template" value="table">
+        <input type="hidden" name="Rating" id="ratingField" value="">
+        <input type="hidden" name="_next" value="">
+        <div class="field">
+          <label for="name">Name</label>
+          <input id="name" name="Name" type="text" required placeholder="Your name">
+        </div>
+        <div class="field">
+          <label for="email">Email</label>
+          <input id="email" name="Email" type="email" required placeholder="you@email.com">
+        </div>
+        <div class="field">
+          <label for="vehicle">Vehicle (optional)</label>
+          <input id="vehicle" name="Vehicle" type="text" placeholder="e.g. Toyota Hilux 2016">
+        </div>
+        <div class="field">
+          <label for="fb">What could we have done better?</label>
+          <textarea id="fb" name="Feedback" required placeholder="Tell us what happened — the more detail, the better we can fix it."></textarea>
+        </div>
+        <button class="btn btn-primary" type="submit" style="width:100%;justify-content:center">Send private feedback</button>
+      </form>
+    </div>
+
+    <div class="success" id="successView">
+      <div class="tick"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><polyline points="20 6 9 17 4 12"/></svg></div>
+      <h2>Thanks — message received</h2>
+      <p>We genuinely appreciate you telling us. Someone from NT Auto Works will be in touch to make it right.</p>
+      <a class="btn btn-dark" href="index.html" style="margin-top:1.6rem">Back to home</a>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Pre-fill rating from URL param
+  var params = new URLSearchParams(window.location.search);
+  var r = parseInt(params.get('rating'),10);
+  if(isNaN(r) || r<1 || r>5) r = 1;
+  document.getElementById('ratingField').value = r + ' / 5';
+  document.getElementById('rateStars').textContent = '★★★★★'.slice(0,r);
+  document.getElementById('rateNum').textContent = '('+r+'/5)';
+  // Redirect target after FormSubmit success -> show success state
+  document.querySelector('input[name="_next"]').value = window.location.href.split('?')[0] + '?sent=1';
+
+  if(params.get('sent')==='1'){
+    document.getElementById('formView').style.display='none';
+    document.getElementById('successView').style.display='block';
+  }
+</script>
+</body>
+</html>
